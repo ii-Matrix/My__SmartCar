@@ -1,0 +1,55 @@
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[JLinkDriver]
+CStepIntDis=_ 0
+TraceBufferSize=0x00010000
+TraceStallIfFIFOFull=0x00000000
+TracePortSize=0x00000004
+[DebugChecksum]
+Checksum=-1032111615
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CodeCoverage]
+Enabled=_ 0
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[Trace1]
+Enabled=0
+ShowSource=1
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[CallStackLog]
+Enabled=0
+[DriverProfiling]
+Enabled=0
+Mode=1
+Graph=0
+Symbiont=0
+Exclusions=
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Aliases]
+A0=_ "C:\Users\磊\Desktop\FK\测试区\舵机测试\Chip\src\MK60_mcg.c" "F:\01__飞思卡尔智能车\测试区\舵机测试\Chip\src\MK60_mcg.c"
+A1=_ "C:\Users\磊\Desktop\万里阳光\野火k60资料\代码\山外K60参考代码V5.3（支持FX、FN和DNZ）\书外的参考例程\舵机\舵机左右摆动\Chip\src\IAR\system_MK60DZ10.c" ""
+A2=_ "C:\Users\磊\Desktop\万里阳光\野火k60资料\代码\山外K60参考代码V5.3（支持FX、FN和DNZ）\书外的参考例程\舵机\舵机左右摆动\Chip\src\MK60_wdog.c" "C:\Users\磊\Desktop\FK\测试区\舵机测试\Chip\src\MK60_wdog.c"
+A3=_ "F:\17飞卡\测试区\舵机测试\App\main.c" "F:\01__飞思卡尔智能车\测试区\舵机测试\App\main.c"
+Count=4
+SuppressDialog=1
