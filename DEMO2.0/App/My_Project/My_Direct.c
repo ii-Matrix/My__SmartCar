@@ -6,7 +6,7 @@ float DD_A = 3.0;
 float Error_Pwm = 0;
 int Pwm_mid = 1715;
 int Pwm_out = 0;
-float  Direct_P = 3.0;
+float  Direct_P = 3.5;
 float  Direct_D = 0;
 
 
@@ -47,7 +47,7 @@ void Direct_PD(void)
   }    
   Direct_D = DD_A;*/
   
-  if(Myabsfloat(Middle_Enow - Middle_Elast) > 30)
+  if(Myabsfloat(Middle_Enow - Middle_Elast) > 50)
   {
     Middle_Enow = Middle_Elast;
   }

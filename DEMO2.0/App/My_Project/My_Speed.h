@@ -10,6 +10,8 @@ void Speed_Measure(void);
 extern void MotorOut(void);
 extern void MotorOut2(void);
 void Speed_PID();
+void  Speed_PID_2();
+
 void DistanceRecord();
 
 

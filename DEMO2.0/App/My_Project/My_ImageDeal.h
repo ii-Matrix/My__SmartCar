@@ -19,7 +19,7 @@ void StraightCheck();
 void OutsideCheck();
 void CrossCheck();
 void Ring_Deal();
-
+void Ring_Deal_2();
 
 
 

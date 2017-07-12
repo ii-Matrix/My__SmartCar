@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <settings>
     <DebugChecksum>
-        <Checksum>1835408666</Checksum>
+        <Checksum>371172668</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -23,6 +23,7 @@
     </Stack>
     <Disassembly>
         <InstrCount>0</InstrCount>
+        <MixedMode>1</MixedMode>
     </Disassembly>
     <CallStack>
         <ShowArgs>0</ShowArgs>

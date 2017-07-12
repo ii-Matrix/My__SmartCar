@@ -426,6 +426,7 @@ void judge_road()
  // judge = judge_crossxieR(judge);    //右斜出十字
   
     //Ring_Deal();
+     Ring_Deal_2();
   StraightCheck();                  //直线检测
   //GoInBendCheck();                  //入弯检测
   OutsideCheck();                   //出界检测
@@ -442,7 +443,7 @@ void StraightCheck()
     uint8 Yuzhi=10;
     if(AbsMiddleError<Yuzhi && Sight - Sight_Init<2)//偏差小，前瞻远
     {     
-        CurveType = Straight;
+        RoadType = Straight1;
         if(Count_Total-Count_Total_Last>335)//每5CM更新一次
         {
           Count_Total_Last = Count_Total;
@@ -453,12 +454,12 @@ void StraightCheck()
     }
     else
     {
-      CurveType = Curve_Null;
+      RoadType = Normal;
       StraightNum = 0;
     }
       if(StraightNum>0)                //至少连续两次判断为直道，才将赛道类型赋值为直道
     {                                //毕竟判断为直道后，电机速度会瞬加，这样做更保险
-       CurveType = Straight;
+       RoadType = Straight1;
     }
   }
 }
@@ -578,6 +579,62 @@ void Ring_Deal()
               
    } 
   
+}
+//圆环处理函数2
+void Ring_Deal_2()
+{
+   int Ring_num = 0;
+   static int Ring_Distance = 0;
+   int Start_Ring = 0;
+  
+  
+     for(int y=80;y>=Sight;y--)      
+    {
+      if(((Right[y+2] - Left[y+2]) < (Right[y] - Left[y]))&& ((Right[y] - Left[y]) < (Right[y-2] - Left[y-2]))&&((Right[y-2] - Left[y-2]) < (Right[y-4] - Left[y-4])) )
+      {
+         if(Right[y+2] < Right[y] && Right[y] < Right[y-2] && Right[y-2] < Right[y-4])
+         {
+            if(Left[y+2] > Left[y] && Left[y] > Left[y - 2]&& Left[y-2] > Left[y-4])
+            {
+               Ring_num++;
+            }
+           else
+             {
+             Ring_num = 0;
+               }
+                if(Ring_num >= 5)
+                 {
+                      RoadType = Ring;
+                      Start_Ring = y + 5;
+                      if(Ring_Distance == 0)
+                      {
+                        Ring_Distance = Distance;
+                      }
+                       break;
+                  }
+         }
+         
+      }
+    
+    
+    }
+   
+  
+         
+    if(RoadType == Ring && Ring_Distance != 0)
+    {
+      for(int x = 119;x >= Sight;x--)
+          {
+            Middle[x] = 80 + (119 - x);
+            Lost_L[x] = 0;
+            Lost_R[x] = 0;
+          }
+    }
+  if(Distance -  Ring_Distance >= 20)
+  {
+    RoadType = Normal;
+     Ring_Distance = 0;
+  }
 }
 //出界检测
 void OutsideCheck()
@@ -819,30 +876,24 @@ float jisuan_piancha()
 ****************************/
 void StartLineCheck()
 {
-   static int  Stop_Num = 0;
-   static int Stop_Flag = 0;
+    int  Stop_Num = 0;
+  
  
     if(CarState == Car_Start && Distance > 200)
   {
+   
     for(uint8 x = 2;x<CAMERA_W-3;x++)
     {
-      if(Img[119][x] == ImgBlack && Img[119][x+1] == ImgBlack && Img[119][x + 2] == ImgBlack&& Img[119][x-1] == ImgWhite&& Img[119][x-2] == ImgWhite)
+      if(Img[100][x+1] == ImgBlack  &&Img[100][x] == ImgBlack  && Img[100][x-1] == ImgWhite&& Img[100][x-2] == ImgWhite)
       {
         Stop_Num++;
         
       }
-      else
-      {
+     if(Stop_Num >= 10)
+     {
         Stop_Num = 0;
-      }
-      if(Stop_Num >= 5)
-      {
-        Stop_Flag++;
-      }
-      
-      if(Stop_Flag >= 5)
-      {
         CarState = Car_Stop;
+        break;
       }
     }
   }

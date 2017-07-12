@@ -24,7 +24,9 @@
  *  @since      v5.3
  *  @note       山外摄像头 LCD 测试实验
  */
-void  main(void)
+
+
+   void  main(void)
 {
     Init_All(); 
     
@@ -56,7 +58,7 @@ void My_Run()
   
 
   Direct_PD();
-  SpeedSet();                                     //更改设定速度
+  
   
   
    display();                                     //液晶显示

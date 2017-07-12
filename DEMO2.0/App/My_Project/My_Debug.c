@@ -120,7 +120,21 @@ void My_Bluetooth(void)
           if(str[0] == '4')
              {
                i = 0;
-                PWM_Motor1 += 200;
+               
+                SpeedMid += 200;
+                str1[0] =  SpeedMid/1000 + 48;
+                str1[1] =  SpeedMid%1000/100 + 48;
+                str1[2] =  SpeedMid%100/10 + 48;
+                str1[3] =  SpeedMid%10 + 48;
+                str1[4] =  '\n';
+                str1[5] = '\0';
+                uart_putstr (UART1, "SpeedMid ="); 
+               uart_putstr (UART1, str1);
+               
+               
+               
+               
+             /*   PWM_Motor1 += 200;
                 str1[0] =  PWM_Motor1/1000 + 48;
                 str1[1] =  PWM_Motor1%1000/100 + 48;
                 str1[2] =  PWM_Motor1%100/10 + 48;
@@ -128,13 +142,30 @@ void My_Bluetooth(void)
                 str1[4] =  '\n';
                  str1[5] = '\0';
                 uart_putstr (UART1, "PWM_Motor ="); 
-               uart_putstr (UART1, str1);
+               uart_putstr (UART1, str1);*/
                
              }
           if(str[0] == '5')
              {
                i = 0;
-                PWM_Motor1 -= 200;
+               
+               SpeedMid -= 200;
+                str1[0] =  SpeedMid/1000 + 48;
+                str1[1] =  SpeedMid%1000/100 + 48;
+                str1[2] =  SpeedMid%100/10 + 48;
+                str1[3] =  SpeedMid%10 + 48;
+                str1[4] =  '\n';
+                 str1[5] = '\0';
+                uart_putstr (UART1, "SpeedMid ="); 
+               uart_putstr (UART1, str1);
+               
+               
+               
+               
+               
+               
+               
+            /*    PWM_Motor1 -= 200;
                 str1[0] =  PWM_Motor1/1000 + 48;
                 str1[1] =  PWM_Motor1%1000/100 + 48;
                 str1[2] =  PWM_Motor1%100/10 + 48;
@@ -142,7 +173,7 @@ void My_Bluetooth(void)
                 str1[4] =  '\n';
                  str1[5] = '\0';
                 uart_putstr (UART1, "PWM_Motor ="); 
-               uart_putstr (UART1, str1);
+               uart_putstr (UART1, str1);*/
              }
           if(str[0] == '6')
              {
