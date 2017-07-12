@@ -37,28 +37,35 @@ void display()
       site.x=8;
       LCD_num_BC(site,(int)(AbsMiddleError*10),4, BLUE,RED);
       
-      site.y=112;
-      site.x=0;
+      site.y=96;
+      site.x=40;
       if(Pwm_out >= Pwm_mid)
         LCD_char(site,'+', BLUE,RED);
       else 
         LCD_char(site,'-', BLUE,RED); 
       
-      site.x=8;
+      site.x=48;
       LCD_num_BC(site,abs_sub(Pwm_out,Pwm_mid),4, BLUE,RED);
+      
+      site.x = 80;
+      LCD_num_BC(site,(int)Distance,6, BLUE,RED);
+      
+      site.y=112;
+      site.x=0;
+      LCD_num_BC(site,Sight_L,5, BLUE,RED);
+     
       
       site.y=112;
       site.x=40;
-      LCD_num_BC(site,(int)(Myabsfloat(Error_Pwm)),3, BLUE,RED);
+      LCD_num_BC(site,Sight,5, BLUE,RED);
       
-      site.y=96;
-      site.x=40;
-      LCD_num_BC(site,Sight,3, BLUE,RED);
+       site.y=112;
+      site.x=80;
+      LCD_num_BC(site,Sight_R,6, BLUE,RED);
       
     
       
-      site.x = 88;
-      LCD_num_BC(site,SpeedGoal,3, BLUE,RED);
+      
    
     }
    

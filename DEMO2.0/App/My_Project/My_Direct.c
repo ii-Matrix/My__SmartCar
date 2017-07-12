@@ -1,13 +1,13 @@
 #include "My_Direct.h"
 
 
-float DP_A = 2.0,DP_B = 2.5,DP_C = 3.0;   //舵机动态P的参数
+float DP_A = 3.0,DP_B = 3.0,DP_C = 3.0;   //舵机动态P的参数
 float DD_A = 3.0;
 float Error_Pwm = 0;
 int Pwm_mid = 1715;
 int Pwm_out = 0;
-float  Direct_P = 2.0;
-float  Direct_D = 3.0;
+float  Direct_P = 3.0;
+float  Direct_D = 0;
 
 
 
@@ -18,7 +18,7 @@ void Direct_PD(void)
   static float Middle_Elast = 0;
   
   uint8 Duoji_DividingLine1 = 30;    //二次曲线和定值P的分界线
-  uint8 Duoji_DividingLine2 = 60;    //二次曲线和定值P的分界线
+  uint8 Duoji_DividingLine2 = 50;    //二次曲线和定值P的分界线
   
   int Pwm_max = 1890;
   int Pwm_min = 1540;

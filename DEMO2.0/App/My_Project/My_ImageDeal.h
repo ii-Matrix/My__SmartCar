@@ -18,6 +18,7 @@ void StartLineCheck();
 void StraightCheck();
 void OutsideCheck();
 void CrossCheck();
+void Ring_Deal();
 
 
 

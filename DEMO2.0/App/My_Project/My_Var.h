@@ -25,8 +25,9 @@ typedef enum           //赛道类型
   StartLine,             //起跑线                  5
   Obstacle_L,            //左障碍                  6
   Obstacle_R,             //右障碍                 7
-  UpHill,                //上坡                    8
-  DownHill,              //下坡                    9
+  Ring,                    //圆环                   8
+  Left_Ring,              //左出圆环                9
+  Right_Ring              //右出圆环             10
 }Road_Type;
 extern Road_Type RoadType,RoadType_Last;
 typedef enum //调用函数的名称
@@ -65,8 +66,8 @@ extern Curve_Type CurveType;
 #define ImgRed   4
 #define LostWhite 1
 #define LostBlack 2
-#define ROAD_HALF 20
-#define ROAD_W    40
+#define ROAD_HALF 25
+#define ROAD_W    50
 
 #define RowMax  73      //计算偏差时所用的行数总和
 #define VarReceiveMax 25
@@ -110,22 +111,22 @@ extern float  Direct_P;
 extern   float  Direct_D;
 
 /*****************速度控制*********************/
-extern int SpeedMin;                    //最小速度
-extern int SpeedGoal;                   //目标速度
+extern uint16 SpeedMin;                    //最小速度
+extern uint16 SpeedGoal;                   //目标速度
 extern float Motor_P;                    //电机P参数
 extern float Motor_I;                    //电机I参数
 extern float Speed_State;
-extern int SpeedNow1;                 //当前速度
-extern int Speed_Test1;
-extern int CarTime;                    //车子运行一圈的时间
-extern int SpeedAverage;               //一圈结束后平均速度
+extern uint16 SpeedNow1;                 //当前速度
+extern int32 Speed_Test1;
+extern uint16 CarTime;                    //车子运行一圈的时间
+extern uint16 SpeedAverage;               //一圈结束后平均速度
 extern float Distance,Distance_Last;                 //路程，单位：厘米
 extern float Distance_StartLine;       //起跑线路程记录
 extern float Distance_GoOutBend;       //出弯路程记录
 extern  float Distance_GoInBend;
 extern  float Distance_Cross,Distance_Cross_GoOut;
 extern long Count_Total,Count_Total_Last;               //脉冲累计值
-extern int PWM_Motor1;
+extern uint16 PWM_Motor1;
 /*****************车*********************/
 
 #define  Car_Start   1

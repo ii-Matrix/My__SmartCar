@@ -21,8 +21,21 @@ void My_Bluetooth(void)
   int temp = 0;
   char str[10];
   char str1[10];
+  static  int  Send_Data = 0;
   
-  
+             if(Send_Data == 1)
+             {
+              /*  str1[0] =   Speed_Test1/1000 + 48;
+                str1[1] =  Speed_Test1%1000/100 + 48;
+                str1[2] =   Speed_Test1%100/10 + 48;
+                str1[3] =   Speed_Test1%10 + 48;
+                str1[4] =  '\n';
+                 str1[5] = '\0';
+                uart_putstr (UART1, " Speed_Test1 ="); 
+               uart_putstr (UART1, str1);*/
+               vcan_sendimg(ImgNow,CAMERA_SIZE);
+
+             }
   
           //查询是否接收到字符串
       i = uart_querystr (UART1,str,sizeof(str)-1);
@@ -58,7 +71,8 @@ void My_Bluetooth(void)
           if(str[0] == '2')
              {
                i = 0;
-               Direct_D += 0.1;
+               
+           /*    Direct_D += 0.1;
                temp = (int)(Direct_D*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -66,13 +80,23 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "DD ="); 
-               uart_putstr (UART1, str1);  
+               uart_putstr (UART1, str1);  */   //舵机D+
+               
+               Motor_P += 0.1;
+               temp = (int)(Motor_P*10.0);
+               str1[0] = temp/10+48;
+               str1[1] = '.';
+               str1[2] = temp%10+48;
+               str1[3] = '\n';
+                str1[4] = '\0';
+                uart_putstr (UART1, "Motor_P ="); 
+               uart_putstr (UART1, str1);
              }
           if(str[0] == '3')
              {
                i = 0;
-               i = 0;
-               Direct_D -= 0.1;
+              
+            /*   Direct_D -= 0.1;
                temp = (int)(Direct_D*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -80,7 +104,18 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "DD = "); 
+               uart_putstr (UART1, str1);*/   //舵机D-
+               
+                 Motor_P -= 0.1;
+               temp = (int)(Motor_P*10.0);
+               str1[0] = temp/10+48;
+               str1[1] = '.';
+               str1[2] = temp%10+48;
+               str1[3] = '\n';
+                str1[4] = '\0';
+                uart_putstr (UART1, "Motor_P ="); 
                uart_putstr (UART1, str1);
+               
              }
           if(str[0] == '4')
              {
@@ -112,18 +147,62 @@ void My_Bluetooth(void)
           if(str[0] == '6')
              {
                i = 0;
+              // Send_Data = 1;
+
+                Motor_I += 0.1;
+               temp = (int)(Motor_I*10.0);
+               str1[0] = temp/10+48;
+               str1[1] = '.';
+               str1[2] = temp%10+48;
+               str1[3] = '\n';
+                str1[4] = '\0';
+                uart_putstr (UART1, "Motor_I ="); 
+               uart_putstr (UART1, str1);
              }
           if(str[0] == '7')
              {
                i = 0;
+              // Send_Data = 0;
+
+               Motor_I -= 0.1;
+               temp = (int)(Motor_I*10.0);
+               str1[0] = temp/10+48;
+               str1[1] = '.';
+               str1[2] = temp%10+48;
+               str1[3] = '\n';
+                str1[4] = '\0';
+                uart_putstr (UART1, "Motor_I ="); 
+               uart_putstr (UART1, str1);
              }
           if(str[0] == '8')
              {
                i = 0;
+               
+               Speed_State += 0.01;
+               temp = (int)(Speed_State*100.0);
+               str1[0] = '0';
+               str1[1] = '.';
+               str1[2] = temp/10+48;
+               str1[3] = temp%10+48;
+               str1[4] = '\n';
+                str1[5] = '\0';
+                uart_putstr (UART1, "Speed_State ="); 
+               uart_putstr (UART1, str1);
              }
           if(str[0] == '9')
              {
                i = 0;
+               
+               Speed_State -= 0.01;
+               temp = (int)(Speed_State*100.0);
+               str1[0] = '0';
+               str1[1] = '.';
+               str1[2] = temp/10+48;
+               str1[3] = temp%10+48;
+               str1[4] = '\n';
+                str1[5] = '\0';
+                uart_putstr (UART1, "Speed_State ="); 
+               uart_putstr (UART1, str1);
              }
           if(str[0] == 'a')
              {

@@ -186,6 +186,8 @@ void GenZong()
           Last_R=Right[y]=Refind_R(y);    
         }     
     }
+    
+    
 }
 /****************************
 作用：计算中线
@@ -207,13 +209,13 @@ void jisuan_Middle()
       {
         if((Lost_L[y]==LostWhite) && (Lost_R[y]==LostWhite))     //两边都没有,并且丢白线，可能是十字
         {
-          middle=(Middle[y+1]+Middle[y+2]+Middle[y+3])/3;       //中点等于前三行均值,计算偏差时本行不参与
+         // middle=(Middle[y+1]+Middle[y+2]+Middle[y+3])/3;       //中点等于前三行均值,计算偏差时本行不参与
 
           
             Last_L=Left[y]=fanjiaozheng_x(y,middle,-ROAD_HALF);     //平移赛道宽度一半补边界线
             Last_R=Right[y]=fanjiaozheng_x(y,middle,+ROAD_HALF);   //不懂
-                
-
+             middle=(Left[y]+Right[y])/2;    
+           
         }
         else
           middle=(Middle[y+3]+Middle[y+2]+Middle[y+1])/3;
@@ -224,6 +226,7 @@ void jisuan_Middle()
         if(Lost_R[y+1] ==LostWhite && Lost_L[y+1] == LostWhite)
           middle = Middle[y+1];
         else       
+          
           middle=Middle[y+1]+(Left[y]-Left[y+1]);//+(int)(Lost_R_Num*Lost_R_Num*ImgCurveDegree);  //按照左边变化趋势补线
       }
       
@@ -233,7 +236,7 @@ void jisuan_Middle()
         if(Lost_R[y+1] ==LostWhite && Lost_L[y+1] == LostWhite)
           middle = Middle[y+1];
         else
-          middle=Middle[y+1]-(Right[y+1]-Right[y]);//-(int)(Lost_L_Num*Lost_L_Num*ImgCurveDegree);  //按照右边变化趋势补线   
+          middle=Middle[y+1]-(Right[y + 1]-Right[y]);//-(int)(Lost_L_Num*Lost_L_Num*ImgCurveDegree);  //按照右边变化趋势补线   
       }
    
 
@@ -378,7 +381,7 @@ void ForeSight()
         break;
       }
       //左边界线比较靠右
-      if(y<80 && Left[y]>150 && Left[y+1]>140 && Left[y]>Left[y+1] && Sight_L==Sight_L_Init)   
+      if(y<80 && Left[y]>150 && Left[y+1]>140 && Left[y]>Left[y+1])   
       {
         Sight_L=y;
         break;
@@ -396,7 +399,7 @@ void ForeSight()
         break;    
       }
       //      右边界线比较靠左
-      if(y<80 && Right[y]<10 && Right[y+1]<20 && Right[y]<Right[y+1] && Sight_R==Sight_R_Init)   
+      if(y<80 && Right[y]<10 && Right[y+1]<20 && Right[y]<Right[y+1])   
       {
         Sight_R=y;
         break;
@@ -418,10 +421,11 @@ void judge_road()
   uint8 judge=0;        //引入这个变量的目的主要是判断出一个赛道类型后不再进行其他赛道类型的判断，减少误判
  
   //和超车区冲突，要改！！
-  CrossCheck();                      //入十字检测
-  judge = judge_crossxieL(judge);    //左斜出十字          
-  judge = judge_crossxieR(judge);    //右斜出十字
+ // CrossCheck();                      //入十字检测
+ // judge = judge_crossxieL(judge);    //左斜出十字          
+ // judge = judge_crossxieR(judge);    //右斜出十字
   
+    //Ring_Deal();
   StraightCheck();                  //直线检测
   //GoInBendCheck();                  //入弯检测
   OutsideCheck();                   //出界检测
@@ -458,9 +462,127 @@ void StraightCheck()
     }
   }
 }
+/******************
+******圆环的处理
+***************/
+void Ring_Deal()
+{
+  
+   int Ring_num = 0;
+   static int Guai_Flag = 0;
+   
+   for(int y=80;y>=Sight;y--)      
+    {
+      if(((Right[y+2] - Left[y+2]) < (Right[y] - Left[y]))&& ((Right[y] - Left[y]) < (Right[y-2] - Left[y-2]))&&((Right[y-2] - Left[y-2]) < (Right[y-4] - Left[y-4])) )
+      {
+         if(Right[y+2] < Right[y] && Right[y] < Right[y-2] && Right[y-2] < Right[y-4])
+         {
+            if(Left[y+2] > Left[y] && Left[y] > Left[y - 2]&& Left[y-2] > Left[y-4])
+            {
+               Ring_num++;
+            }
+             else
+          {
+             Ring_num = 0;
+            }
+             if(Ring_num >= 10)
+     {
+       RoadType = Ring;
+       break;
+     }
+         }
+         
+      }
+    
+    
+    }
+     
+     if((RoadType == Ring || RoadType == Right_Ring|| RoadType == Left_Ring)&&(Guai_Flag == 0))
+     {
+       for(int y = 119;y>=Sight;y--)
+       {
+        if(((Lost_R[y] == LostWhite) && (Lost_L[y] == 0))&&((Lost_R[y-1] == LostWhite) && (Lost_L[y-1] ==0))&&((Lost_R[y-2] == LostWhite) && (Lost_L[y-2] == 0)) ) 
+       {
+         RoadType = Right_Ring;
+         for(int x = 119;x >= y;x--)
+         {
+           Middle[x] =  ((119 - x)*(Right[y] - Middle[119]))/(119-y);
+         }
+         break;
+       }
+       else  if(((Lost_R[y] == 0) && (Lost_L[y] == LostWhite))&&((Lost_R[y-1] == 0) && (Lost_L[y-1] == LostWhite))&&((Lost_R[y-2] == 0) && (Lost_L[y-2] == LostWhite)) ) 
+       {
+         RoadType = Left_Ring;
+         for(int x = 119;x >= y;x--)
+         {
+           Middle[x] =  ((119 - x)*(Middle[119] - Left[y]))/(119-y);
+         }      
+         break;
+       }   
+         
+       }          
+    }
+   
+   if(RoadType == Right_Ring)
+   {
+     for(int y = 119; y >= Sight;y--)
+     {
+       if(Right[y + 3] > Right[y + 2]  &&Right[y + 2] > Right[y + 1]  && Right[y+1] > Right[y]&&Right[y] < Right[y-1]&&Right[y -1] < Right[y-2]&&Right[y -2] < Right[y-3])
+       {
+         Guai_Flag = 1;
+       }
+       for(int x = 119;x >= y;x--)
+       {
+          Middle[x] =  ((119 - x)*(Right[y] - Middle[119] - 20))/(119-y);
+       }
+       break;
+     }
+   }
+   
+    if(RoadType == Left_Ring)
+   {
+     for(int y = 119; y >= Sight;y--)
+     {
+       if(Left[y + 3] < Left[y + 2]  && Left[y + 2] < Left[y + 1]  && Left[y+1] < Left[y]  &&Left[y] < Left[y-1] &&Left[y-1] < Left[y-2] &&Left[y-2] < Left[y-3])
+       {
+         Guai_Flag = 1;
+       }
+       for(int x = 119;x >= y;x--)
+       {
+          Middle[x] =  ((119 - x)*(Middle[119] - Left[y] + 20))/(119-y);
+       }
+       break;
+     }
+   }
+   
+   if( Guai_Flag == 1 &&(RoadType == Left_Ring || RoadType == Right_Ring))
+   {
+       Guai_Flag = 0;
+     for(int y = 119; y >= Sight;y--)
+     {
+       if(Left[y + 3] < Left[y + 2]  && Left[y + 2] < Left[y + 1]  && Left[y+1] < Left[y]  &&Left[y] < Left[y-1] &&Left[y-1] < Left[y-2] &&Left[y-2] < Left[y-3])
+       {
+         Guai_Flag = 1;
+         break;
+       }
+        if(Right[y + 3] > Right[y + 2]  &&Right[y + 2] > Right[y + 1]  && Right[y+1] > Right[y]&&Right[y] < Right[y-1]&&Right[y -1] < Right[y-2]&&Right[y -2] < Right[y-3])
+       {
+         Guai_Flag = 1;
+         break;
+       }
+     }     
+     if(Guai_Flag == 0)
+     {
+       RoadType ==  Normal;
+     }
+              
+   } 
+  
+}
 //出界检测
 void OutsideCheck()
 {
+  
   if(CarState == Car_Start)
   {
     int BlackNum = 0;
@@ -473,7 +595,11 @@ void OutsideCheck()
     {
       CarState = Car_Stop;
     }
+    
+   
   }
+  
+  
 }
 
 //入十字检测，十字特殊处理，采用定值P方案
@@ -693,7 +819,33 @@ float jisuan_piancha()
 ****************************/
 void StartLineCheck()
 {
+   static int  Stop_Num = 0;
+   static int Stop_Flag = 0;
  
+    if(CarState == Car_Start && Distance > 200)
+  {
+    for(uint8 x = 2;x<CAMERA_W-3;x++)
+    {
+      if(Img[119][x] == ImgBlack && Img[119][x+1] == ImgBlack && Img[119][x + 2] == ImgBlack&& Img[119][x-1] == ImgWhite&& Img[119][x-2] == ImgWhite)
+      {
+        Stop_Num++;
+        
+      }
+      else
+      {
+        Stop_Num = 0;
+      }
+      if(Stop_Num >= 5)
+      {
+        Stop_Flag++;
+      }
+      
+      if(Stop_Flag >= 5)
+      {
+        CarState = Car_Stop;
+      }
+    }
+  }
 }
 
 

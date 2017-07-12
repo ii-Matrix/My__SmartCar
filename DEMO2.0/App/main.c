@@ -27,16 +27,11 @@
 void  main(void)
 {
     Init_All(); 
+    
     while(1)
-    {
-     
-     
+    {   
         camera_get_img();                                   //摄像头获取图像
-       
-        //黑白摄像头
-     //   LCD_Img_Binary_Z(site, size, imgbuff, imgsize);
-       // vcan_sendimg(imgbuff,CAMERA_SIZE);
-
+   
     }
 }
 

@@ -34,7 +34,7 @@ void Init_All(void)
       enable_irq (PIT1_IRQn); 
       
       //串口初始化
-      uart_init (UART3,115200);    //图像传输
+     uart_init (UART3,115200);    //图像传输
       uart_init (UART1,9600);      //手机调试
     
       //正交解码测速

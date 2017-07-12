@@ -31,8 +31,8 @@ void PIT1_IRQHandler()
 
     if(CarState == Car_Start)
     {
-      // MotorOut();
-          MotorOut2();
+     // MotorOut();
+      MotorOut2();
       SpeedAverage = (Distance*1000/(float)CarTime);     
     }
     if(CarState == Car_Stop)
