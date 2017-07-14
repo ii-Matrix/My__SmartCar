@@ -209,12 +209,12 @@ void jisuan_Middle()
       {
         if((Lost_L[y]==LostWhite) && (Lost_R[y]==LostWhite))     //两边都没有,并且丢白线，可能是十字
         {
-         // middle=(Middle[y+1]+Middle[y+2]+Middle[y+3])/3;       //中点等于前三行均值,计算偏差时本行不参与
+        middle=(Middle[y+1]+Middle[y+2]+Middle[y+3])/3;       //中点等于前三行均值,计算偏差时本行不参与
 
           
-            Last_L=Left[y]=fanjiaozheng_x(y,middle,-ROAD_HALF);     //平移赛道宽度一半补边界线
-            Last_R=Right[y]=fanjiaozheng_x(y,middle,+ROAD_HALF);   //不懂
-             middle=(Left[y]+Right[y])/2;    
+       //   Last_L=Left[y]=fanjiaozheng_x(y,middle,-ROAD_HALF);     //平移赛道宽度一半补边界线
+         // Last_R=Right[y]=fanjiaozheng_x(y,middle,+ROAD_HALF);   //不懂
+           //  middle=(Left[y]+Right[y])/2;    
            
         }
         else
@@ -426,7 +426,12 @@ void judge_road()
  // judge = judge_crossxieR(judge);    //右斜出十字
   
     //Ring_Deal();
+if(Distance > 3200)
+{
+    SpeedMid = 2000;
      Ring_Deal_2();
+     
+}
   StraightCheck();                  //直线检测
   //GoInBendCheck();                  //入弯检测
   OutsideCheck();                   //出界检测
@@ -585,13 +590,31 @@ void Ring_Deal_2()
 {
    int Ring_num = 0;
    static int Ring_Distance = 0;
-   int Start_Ring = 0;
+   static int Start_Ring = 0;
+   int Flag_guai1 = 0;
+   int Guai1_x = 0;
+   int Guai1_y = 0;  
+   int Guai2_x = 0;
+   int Guai2_y = 0;  
+   int Guai1_Flag = 0;
+    int Guai2_Flag = 0;
+    int  Centent  = 0;
+    int Centent_y = 0;
+    static int Ring_ING = 0;
+    
+    
+    int Start_Ring_Down  = 0;
+    int  Start_Ring_Raise  = 0;
+     
+    
+   
   
   
-     for(int y=80;y>=Sight;y--)      
+     for(int y=109;y>=Sight;y--)      
     {
       if(((Right[y+2] - Left[y+2]) < (Right[y] - Left[y]))&& ((Right[y] - Left[y]) < (Right[y-2] - Left[y-2]))&&((Right[y-2] - Left[y-2]) < (Right[y-4] - Left[y-4])) )
       {
+          //第一种情况，也是最理想的 可以看到圆弧的两边递增，小车笔直的看到圆弧
          if(Right[y+2] < Right[y] && Right[y] < Right[y-2] && Right[y-2] < Right[y-4])
          {
             if(Left[y+2] > Left[y] && Left[y] > Left[y - 2]&& Left[y-2] > Left[y-4])
@@ -600,41 +623,183 @@ void Ring_Deal_2()
             }
            else
              {
-             Ring_num = 0;
-               }
-                if(Ring_num >= 5)
+                Ring_num = 0;
+             }
+                if(Ring_num >= 1)
                  {
                       RoadType = Ring;
+                      Ring_ING = 1;
                       Start_Ring = y + 5;
                       if(Ring_Distance == 0)
                       {
                         Ring_Distance = Distance;
                       }
                        break;
-                  }
+                 }
          }
-         
-      }
-    
-    
-    }
-   
-  
-         
-    if(RoadType == Ring && Ring_Distance != 0)
+                
+     }
+    if(Guai1_Flag == 0)
     {
-      for(int x = 119;x >= Sight;x--)
+     if((Right[y+4] > Right[y+2]) && (Right[y+2] > Right[y]) &&  (Right[y] < Right[y-2])  &&  (Right[y-2] < Right[y-4]) )
           {
-            Middle[x] = 80 + (119 - x);
-            Lost_L[x] = 0;
-            Lost_R[x] = 0;
+            
+                 Guai1_x = Right[y];
+                 Guai1_y = y;       
+                 Guai1_Flag = 1;
+                                                 
           }
     }
-  if(Distance -  Ring_Distance >= 20)
-  {
-    RoadType = Normal;
-     Ring_Distance = 0;
-  }
+     if(Guai2_Flag == 0)
+     {
+        if((Left[y+4] < Left[y+2]) && (Left[y+2] < Left[y])  && (Left[y] > Left[y-2])&&  (Left[y-2] > Left[y-4]) )
+          {
+            
+             Guai2_x = Left[y];
+                 Guai2_y = y;
+                 Guai2_Flag = 1;
+            
+          }
+     }
+      
+      if(Guai1_Flag != 0 || Guai2_Flag != 0)
+      {
+        if(Guai1_Flag != 0  &&  Guai2_Flag == 0)
+        {
+          
+          Centent =  Middle[Guai1_y];
+          Centent_y = Guai1_y;
+          
+        }
+        if(Guai1_Flag == 0  &&  Guai2_Flag != 0)
+        {
+          
+          Centent =  Middle[Guai2_y];
+           Centent_y = Guai2_y;
+        }
+        else
+        {
+          
+          
+          Centent = ( Middle[Guai2_y] + Middle[Guai1_y])/2;
+            Centent_y = (Guai1_y + Guai1_y)/2;
+        }
+        
+       
+          if(Img[y+4][Centent]==ImgWhite&&Img[y+2][Centent]==ImgWhite&&Img[y][Centent] == ImgBlack&&Img[y - 2][Centent] == ImgBlack&&Img[y - 4][Centent] == ImgBlack)
+           {
+             
+             Start_Ring_Down = y;
+            }
+          if(Start_Ring_Down != 0)
+          {
+          if(Img[y+4][Centent]==ImgBlack&&Img[y+2][Centent]==ImgBlack&&Img[y][Centent] == ImgWhite&&Img[y - 2][Centent] == ImgWhite&&Img[y - 4][Centent] == ImgWhite)
+           {
+             
+             Start_Ring_Raise = y;
+             if(Start_Ring_Down  - Start_Ring_Raise >= 3)
+             {
+                      RoadType = Ring;
+                       Ring_ING = 1;
+                      Start_Ring = Centent_y;
+                      if(Ring_Distance == 0)
+                      {
+                        Ring_Distance = Distance;
+                      }
+                       break;
+               
+             }
+            }
+          }     
+      }
+     
+      
+     
+  /*     //第二种情况,右斜入圆环
+          if((Right[y+6] > Right[y+3]) && (Right[y+3] > Right[y]) &&  (Right[y] < Right[y-3])  &&  (Right[y-3] < Right[y-6]) )
+          {
+            if(Lost_L[y] == LostWhite&&Lost_L[y-2] == LostWhite&&Lost_L[y-4] == LostWhite)
+            {
+              
+               if(Flag_guai1 ==  0)
+               {
+                 Flag_guai1 = 1;
+
+                 Guai1_x = Right[y];
+                 Guai1_y = y;             
+               }                                   
+            }           
+             if(Flag_guai1 == 1)
+               {
+                 Guai2_x = Right[y];
+                 Guai2_y = y;  
+                 
+                  if( (Guai2_x >  Guai1_x)  &&  (Guai1_y -  Guai2_y  > 10))
+                   {
+                      RoadType = Ring;
+                      Start_Ring =  Guai1_y;
+                      
+                      
+                      
+                      if(Ring_Distance == 0)
+                      {
+                        Ring_Distance = Distance;
+                      }
+                       break;              
+                  }
+               }
+           
+            
+            
+          }
+         //第三种情况，左斜入圆环
+         if((Left[y+6] < Left[y+3]) && (Left[y+3] < Left[y])  && (Left[y] > Left[y-3])&&  (Left[y-3] > Left[y-6]) )
+          {
+            if(Lost_R[y] == LostWhite&&Lost_R[y-2] == LostWhite&&Lost_R[y-4] == LostWhite)
+            {
+              if(Flag_guai1 ==  0)
+               {
+                 Flag_guai1 = 1;
+                 Guai1_x = Left[y];
+                 Guai1_y = y;             
+               }                                
+            }
+             if(Flag_guai1 == 1)
+               {
+                 Guai2_x = Left[y];
+                 Guai2_y = y;  
+                 
+                  if( (Guai2_x <  Guai1_x)  &&  (Guai1_y -  Guai2_y  > 10))
+                   {
+                      RoadType = Ring;
+                      Start_Ring =  Guai1_y;         
+                      if(Ring_Distance == 0)
+                      {
+                        Ring_Distance = Distance;
+                      }
+                       break;
+                   }
+            
+               }      
+           }   */
+   }
+
+          if( Ring_ING == 1&& Ring_Distance != 0)
+              {
+                for(int x =Start_Ring;x >= Sight;x--)
+                    {
+                      Middle[x] = 80 + (Start_Ring - x);
+                      Lost_L[x] = 0;
+                      Lost_R[x] = 0;
+                    }
+              }
+            if(Distance -  Ring_Distance >= 30)
+            {
+              RoadType = Normal;
+               Ring_ING = 0;;
+               Ring_Distance = 0;
+               Start_Ring = 0;
+            }
 }
 //出界检测
 void OutsideCheck()
@@ -850,7 +1015,7 @@ float jisuan_piancha()
     Sight_Temp = Sight;
   else
     Sight_Temp = Sight_Init_Turn;
-  for(y=119;y>=Sight_Temp;y--)  //搜索边界最远用到1米5，但计算偏差最远用到1米2
+  for(y=90;y>=Sight_Temp;y--)  //搜索边界最远用到1米5，但计算偏差最远用到1米2
   {
     if((Lost_L[y]==LostWhite && Lost_R[y]==LostWhite) || (Lost_L[y]==LostBlack && Lost_R[y]==LostBlack))        
       {

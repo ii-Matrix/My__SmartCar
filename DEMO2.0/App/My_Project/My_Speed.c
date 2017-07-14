@@ -1,8 +1,8 @@
 #include "My_Speed.h"
 
 uint16  SpeedMax = 2500;                    //最大速度
-uint16  SpeedMid = 2000;                    //中间速度
-uint16  SpeedMin = 1500;                    //最小速度
+uint16  SpeedMid = 2400;                    //中间速度
+uint16  SpeedMin = 1000;                    //最小速度
 uint16  SpeedGoal = 2500;                   //目标速度
 
 float  Speed_P = 0;                       //速度P项
@@ -14,7 +14,7 @@ float Motor_I = 0.5;                    //电机I参数
 float Motor_D = 0
 ;
 
-float Speed_State = 0.25;
+float Speed_State = 0.28;
 
 
 int MotorOutMax=9000;                //电机最大输出PWM
@@ -84,6 +84,39 @@ void SpeedSet(void)
      
 
 }
+//速度设定2
+void SpeedSet_2(void)
+{
+  if(AbsMiddleError < 5)
+  {
+    SpeedGoal = SpeedMid + 300;
+  }
+  
+  else if(AbsMiddleError >5 && AbsMiddleError <15)
+  {
+    SpeedGoal = SpeedMid;
+  }
+  else if(AbsMiddleError >15 && AbsMiddleError <40)
+  {
+    SpeedGoal = SpeedMid - 10*AbsMiddleError;
+  }
+  else 
+  {
+     SpeedGoal = SpeedMid - 500;
+  }
+  
+  if(RoadType == Ring)
+  {
+    if(SpeedNow1 > SpeedMin)
+    {
+      SpeedGoal = 0;
+    }
+    else
+     SpeedGoal = SpeedMin;
+  }
+  
+  
+}
 /********************************
 作用：采集编码器的反馈的速度
 参数：无
@@ -111,7 +144,9 @@ void MotorOut(void)
     Speed_Measure();
    DistanceRecord();
    
-   SpeedSet();
+  // SpeedSet();
+   SpeedSet_2();
+   
    // Speed_PID();
     Speed_PID_2();
     

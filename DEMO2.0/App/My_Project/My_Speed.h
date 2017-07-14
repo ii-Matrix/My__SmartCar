@@ -6,6 +6,8 @@
 
 
 void SpeedSet(void);
+void SpeedSet_2(void);
+
 void Speed_Measure(void);
 extern void MotorOut(void);
 extern void MotorOut2(void);

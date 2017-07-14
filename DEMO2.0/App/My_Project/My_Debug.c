@@ -72,7 +72,7 @@ void My_Bluetooth(void)
              {
                i = 0;
                
-           /*    Direct_D += 0.1;
+               Direct_D += 0.1;
                temp = (int)(Direct_D*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -80,9 +80,9 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "DD ="); 
-               uart_putstr (UART1, str1);  */   //舵机D+
+               uart_putstr (UART1, str1);    //舵机D+
                
-               Motor_P += 0.1;
+          /*     Motor_P += 0.1;
                temp = (int)(Motor_P*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -90,13 +90,13 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "Motor_P ="); 
-               uart_putstr (UART1, str1);
+               uart_putstr (UART1, str1);*/
              }
           if(str[0] == '3')
              {
                i = 0;
               
-            /*   Direct_D -= 0.1;
+              Direct_D -= 0.1;
                temp = (int)(Direct_D*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -104,9 +104,9 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "DD = "); 
-               uart_putstr (UART1, str1);*/   //舵机D-
+               uart_putstr (UART1, str1);   //舵机D-
                
-                 Motor_P -= 0.1;
+            /*     Motor_P -= 0.1;
                temp = (int)(Motor_P*10.0);
                str1[0] = temp/10+48;
                str1[1] = '.';
@@ -114,7 +114,7 @@ void My_Bluetooth(void)
                str1[3] = '\n';
                 str1[4] = '\0';
                 uart_putstr (UART1, "Motor_P ="); 
-               uart_putstr (UART1, str1);
+               uart_putstr (UART1, str1);*/
                
              }
           if(str[0] == '4')
