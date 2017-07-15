@@ -12,6 +12,6 @@
 extern void Switch_Init(void);
 extern void My_Bluetooth(void);
 extern void SetZero();
-
+extern void My_Switch_Set(void);
 
 #endif

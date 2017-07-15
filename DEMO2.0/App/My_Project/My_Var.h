@@ -145,4 +145,7 @@ extern int16 page,LastPage;             //页数
 extern int16 Img_LCD_Loaction_X,Img_LCD_Loaction_Y;      //图像在LCD上的位置
 
 extern void My_Run();
+
+extern int   SaiDao_Flag;
+
 #endif

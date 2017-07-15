@@ -223,7 +223,7 @@ reg_s ov7725_eagle_reg[] =
     {OV7725_BDMStep      , 0x03},
     {OV7725_SDE          , 0x04},
     {OV7725_BRIGHT       , 0x00},
-    {OV7725_CNST         , 0x40},                                    //和阈值有关   间接修改阈值默认0xff
+    {OV7725_CNST         , 0x30},                                    //和阈值有关   间接修改阈值默认0xff
     {OV7725_SIGN         , 0x06},
     {OV7725_UVADJ0       , 0x11},
     {OV7725_UVADJ1       , 0x02},

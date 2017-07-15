@@ -28,7 +28,13 @@ void PIT1_IRQHandler()
   if(SpeedTime>=5)
   {
     SpeedTime = 0;
-
+    
+    if(CarState == Car_Start)
+  {
+    CarTime++;    
+  }
+  
+  
     if(CarState == Car_Start)
     {
      MotorOut();
@@ -46,10 +52,7 @@ void PIT1_IRQHandler()
      led_turn (LED0);
   }  
 
-  if(CarState == Car_Start)
-  {
-    CarTime++;    
-  }
+  
   PIT_Flag_Clear(PIT1);
 }
 

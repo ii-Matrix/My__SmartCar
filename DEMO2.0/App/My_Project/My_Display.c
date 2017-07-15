@@ -52,16 +52,16 @@ void display()
       
       site.y=112;
       site.x=0;
-      LCD_num_BC(site,Sight_L,5, BLUE,RED);
+      LCD_num_BC(site,Left[72],5, BLUE,RED);
      
       
       site.y=112;
       site.x=40;
-      LCD_num_BC(site,Sight,5, BLUE,RED);
+      LCD_num_BC(site,CarTime,5, BLUE,RED);
       
        site.y=112;
       site.x=80;
-      LCD_num_BC(site,Sight_R,6, BLUE,RED);
+      LCD_num_BC(site,Right[72],6, BLUE,RED);
       
     
       

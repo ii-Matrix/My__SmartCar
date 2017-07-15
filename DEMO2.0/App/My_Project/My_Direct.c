@@ -6,7 +6,7 @@ float DD_A = 3.0;
 float Error_Pwm = 0;
 int Pwm_mid = 1715;
 int Pwm_out = 0;
-float  Direct_P = 2.9;
+float  Direct_P = 2.8;
 float  Direct_D = 0.5;
 
 
@@ -80,7 +80,14 @@ void Direct_PD(void)
   if(Pwm_out <= Pwm_min)
   {
     Pwm_out = Pwm_min;
-  } 
+  }
+  /*
+    if(CarState == Car_Stop && Distance >= 3200)
+       {
+          ftm_pwm_duty(FTM3,FTM_CH1,1715);
+       }
+  else*/
+    
   ftm_pwm_duty(FTM3,FTM_CH1,Pwm_out);
 }
 

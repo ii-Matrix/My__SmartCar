@@ -426,17 +426,233 @@ void judge_road()
  // judge = judge_crossxieR(judge);    //右斜出十字
   
     //Ring_Deal();
-if(Distance > 3200)
-{
-    SpeedMid = 2000;
-     Ring_Deal_2();
-     
-}
+    if(SaiDao_Flag == 1)
+    {
+        if(Distance > 3200)
+          {
+      
+         SpeedMid = 2000;
+         Ring_Deal_2();
+         
+         }
+    }
+    else if(SaiDao_Flag == 0)
+    {
+      if(Distance < 500)
+          {
+      
+         SpeedMid = 2000;
+         Ring_Deal_2();
+         
+         }
+      else
+      {
+         SpeedMid = 2400;
+         
+      }
+      
+    }
   StraightCheck();                  //直线检测
+ if(Distance < 150)
+ {
+ // Barr_Judge();
+  Barr_Judge_2();
+ }
+ else if(Distance > 3200)
+ {
+ 
+  StartLineCheck();                               //起跑线检测
+ }
   //GoInBendCheck();                  //入弯检测
   OutsideCheck();                   //出界检测
   
 }
+
+void Barr_Judge(void)
+{
+  int WB_Flag = 0;   
+  int BW_Flag = 0;
+  
+  int  D_Value[120] = {0};
+  int Judge_Num = 0;
+  
+  static int Barr_Flag = 0;
+  static int Barr_Distance = 0;
+ 
+  
+  if(Barr_Flag == 0)
+  {
+ for(int y=115;y>=Sight;y--)
+ {
+   if(Lost_L[y] == 0 && Lost_R[y] == 0)
+   {
+     
+     for(int x = Right[y];x>=Left[y];x--)
+     {
+       if(Img[y][x-3] ==ImgBlack &&Img[y][x-1] ==ImgBlack &&Img[y][x] ==ImgBlack &&Img[y][x+1] == ImgWhite && Img[y][x+3] == ImgWhite )
+       {
+         WB_Flag = x;
+         
+       }
+       if(WB_Flag != 0)
+       {
+          if(Img[y][x-3] ==ImgWhite &&Img[y][x-1] ==ImgWhite &&Img[y][x] ==ImgBlack &&Img[y][x+1] ==ImgBlack  && Img[y][x+3] == ImgBlack )
+           {
+              BW_Flag = x;
+              D_Value[y] = WB_Flag - BW_Flag;
+           }
+       }   
+     }
+    if(D_Value[y]  > 5)
+    {
+     if( D_Value[y] -  D_Value[y +1] < 5 )
+     {
+       Judge_Num++;
+     }
+     else
+     {
+       Judge_Num = 0;
+     }
+       if(Judge_Num >= 5)
+       {
+         if(80 < WB_Flag && 80 < BW_Flag)
+         {
+            Barr_Flag  = 1;
+           Barr_Distance = Distance;
+           
+         }
+         else if(80 > WB_Flag && 80 > BW_Flag)
+         {
+            Barr_Flag  = 2;
+           Barr_Distance = Distance;
+          
+         }
+         
+         
+       }
+     
+    }
+     
+   
+         
+   
+   }
+   
+ }
+  }
+ 
+ if( Barr_Distance != 0)
+ {
+   if(Barr_Flag == 1)
+   {
+     for(int j = 100; j >= Sight;j--)
+     {
+       Middle[j] =  fanjiaozheng_x(j,Middle[j],-7); 
+      // Middle[j] = Middle[j] - 30;
+     }
+   }
+   else if(Barr_Flag == 2)
+   {
+     for(int j = 100; j >= Sight;j--)
+     {
+      Middle[j] =  fanjiaozheng_x(j,Middle[j],+7); 
+      // Middle[j] = Middle[j] + 30;
+     }
+   }
+ }
+ 
+ if(Distance - Barr_Distance >= 100)
+ {
+   Barr_Distance = 0;
+   Barr_Flag = 0;
+   
+ }
+}
+
+void Barr_Judge_2(void)
+{
+  int WB_Flag = 0;
+  int BW_Flag = 0;
+  int  D_Value= 0;
+  int Judge_Num = 0;
+  
+  static int Barr_Flag = 0;
+  static int Barr_Distance = 0;
+ 
+  
+ 
+      
+         
+          for(int x = Right[72];x>=Left[72];x--)
+           {
+            
+             if(Img[72][x-2] ==ImgBlack &&Img[72][x-1] ==ImgBlack &&Img[72][x] ==ImgBlack &&Img[72][x+1] == ImgWhite && Img[72][x+2] == ImgWhite )
+             {
+               WB_Flag = x;
+             }
+             if(WB_Flag != 0)
+             {
+                if(Img[72][x-2] ==ImgWhite &&Img[72][x-1] ==ImgWhite &&Img[72][x] ==ImgBlack &&Img[72][x+1] ==ImgBlack  && Img[72][x+2] == ImgBlack )
+                 {
+                    BW_Flag = x;
+                    D_Value = WB_Flag - BW_Flag;
+                    if(D_Value > 8)
+                       {
+                          if(Middle[72]< WB_Flag && Middle[72] < BW_Flag)
+                             {
+                                Barr_Flag  = 1;
+                               Barr_Distance = Distance;
+                                 break;
+                               
+                             }
+                             else if(Middle[72] > WB_Flag && Middle[72] > BW_Flag)
+                             {
+                                Barr_Flag  = 2;
+                               Barr_Distance = Distance;
+                                 break;
+                              
+                             }
+                      
+                     
+                    }
+                   
+                 }
+                
+                
+             }   
+           
+          }           
+  
+  
+  if( Barr_Distance != 0)
+ {
+   if(Barr_Flag == 1)
+   {
+     for(int j = 100; j >= Sight;j--)
+     {
+       Middle[j] =  fanjiaozheng_x(j,Middle[j],-7); 
+      // Middle[j] = Middle[j] - 30;
+     }
+   }
+   else if(Barr_Flag == 2)
+   {
+     for(int j = 100; j >= Sight;j--)
+     {
+      Middle[j] =  fanjiaozheng_x(j,Middle[j],+7); 
+      // Middle[j] = Middle[j] + 30;
+     }
+   }
+ }
+ 
+ if(Distance - Barr_Distance >= 100)
+ {
+   Barr_Distance = 0;
+   Barr_Flag = 0;
+   
+ }
+  
+}
+
 
 /****************************
 未验证
@@ -783,6 +999,8 @@ void Ring_Deal_2()
                }      
            }   */
    }
+   if(SaiDao_Flag == 1)
+   {
 
           if( Ring_ING == 1&& Ring_Distance != 0)
               {
@@ -793,6 +1011,19 @@ void Ring_Deal_2()
                       Lost_R[x] = 0;
                     }
               }
+   }
+   else if(SaiDao_Flag == 0)
+   {
+      if( Ring_ING == 1&& Ring_Distance != 0)
+              {
+                for(int x =Start_Ring;x >= Sight;x--)
+                    {
+                      Middle[x] = 80 - (Start_Ring - x);
+                      Lost_L[x] = 0;
+                      Lost_R[x] = 0;
+                    }
+              }
+   }
             if(Distance -  Ring_Distance >= 30)
             {
               RoadType = Normal;
@@ -1054,7 +1285,7 @@ void StartLineCheck()
         Stop_Num++;
         
       }
-     if(Stop_Num >= 10)
+     if(Stop_Num >= 5)
      {
         Stop_Num = 0;
         CarState = Car_Stop;

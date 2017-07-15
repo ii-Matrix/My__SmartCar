@@ -1,9 +1,9 @@
 #include "My_Speed.h"
 
-uint16  SpeedMax = 2500;                    //最大速度
+uint16  SpeedMax = 3000;                    //最大速度
 uint16  SpeedMid = 2400;                    //中间速度
-uint16  SpeedMin = 1000;                    //最小速度
-uint16  SpeedGoal = 2500;                   //目标速度
+uint16  SpeedMin = 1800;                    //最小速度
+uint16  SpeedGoal = 2000;                   //目标速度
 
 float  Speed_P = 0;                       //速度P项
 float  Speed_I = 0;                       //速度I项
@@ -11,8 +11,7 @@ float  Speed_D = 0;
 
 float Motor_P = 3.0;                    //电机P参数
 float Motor_I = 0.5;                    //电机I参数
-float Motor_D = 0
-;
+float Motor_D = 0;
 
 float Speed_State = 0.28;
 
@@ -115,6 +114,16 @@ void SpeedSet_2(void)
      SpeedGoal = SpeedMin;
   }
   
+    //   if(Distance > 3200)
+      //    {
+     //        if(SpeedNow1 > SpeedMin)
+       //         {
+      //            SpeedGoal = 0;
+        //        }
+      //        SpeedMid = 2000;
+      //    }
+  
+ 
   
 }
 /********************************

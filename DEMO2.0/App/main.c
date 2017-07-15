@@ -25,13 +25,17 @@
  *  @note       山外摄像头 LCD 测试实验
  */
 
+   
 
    
 
+   
+   
    
    void  main(void)
 {
     Init_All(); 
+    My_Switch_Set();
     
     while(1)
     {   
@@ -46,7 +50,7 @@
 void My_Run()
 {
    img_extract((uint8*)Img,ImgAgo,CAMERA_SIZE);    //解压缩,一维数组变二维数组
-   StartLineCheck();                               //起跑线检测
+  // StartLineCheck();                               //起跑线检测
   
    BottomFind();                                   //底部寻找
    GenZong();                                      //跟踪边缘  

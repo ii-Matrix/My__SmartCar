@@ -20,6 +20,9 @@ void OutsideCheck();
 void CrossCheck();
 void Ring_Deal();
 void Ring_Deal_2();
+void Barr_Judge(void);
+void Barr_Judge_2(void);
+
 
 
 

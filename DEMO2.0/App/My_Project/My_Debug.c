@@ -1,6 +1,7 @@
 #include "My_Debug.h"
 
 uint8  CarState  =  0;
+int   SaiDao_Flag = 1;
 
 
 void Switch_Init(void)
@@ -15,6 +16,65 @@ void Switch_Init(void)
   port_init_NoALT(Switch_4, PULLUP);         //≈‰÷√Œ™…œ¿≠ 
 
 }
+
+void My_Switch_Set(void)
+{
+  
+  int Switch_Flag1  = 1;
+  int Switch_Flag2  = 1;
+  int Switch_Flag3  = 1;
+  int Switch_Flag4  = 1;
+  
+  Switch_Flag1 = PTE27_IN;
+  Switch_Flag2 = PTE26_IN;
+  Switch_Flag3 = PTE25_IN;
+  Switch_Flag4 = PTE24_IN;
+  
+  if(Switch_Flag1 == 0)
+  {
+    SaiDao_Flag = 0;
+    
+  }
+  else
+  {
+    SaiDao_Flag = 1;
+  }
+  if(Switch_Flag2 == 0)
+  {
+    CarState = Car_Start;
+    SpeedMid = 2200; 
+    SpeedGoal  = 2200;
+    Speed_State = 0.28;
+     Direct_P = 2.7;
+  }
+  if(Switch_Flag3 == 0)
+  {
+      CarState = Car_Start;
+      SpeedMid = 2400; 
+      SpeedGoal  = 2200;
+      Speed_State = 0.27;
+      Direct_P = 2.8;
+  }
+  if(Switch_Flag4 == 0)
+  {
+     CarState = Car_Start;
+    SpeedMid = 2600; 
+     SpeedGoal  = 2600;
+    Speed_State = 0.30;
+     Direct_P = 2.8;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+}
+
+
+
 void My_Bluetooth(void)
 {
   uint32 i = 0;
