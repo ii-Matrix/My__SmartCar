@@ -42,6 +42,8 @@ float ImgCurveDegree;           //中线弯曲程度系数
 Curve_Type CurveType;           //弯曲程度，主要为了速度控制服务
 int Row;
 float Cross_Xielv,Cross_Xielv2;
+int Ring_Over = 0;
+
 
 
 /****************************
@@ -428,11 +430,14 @@ void judge_road()
     //Ring_Deal();
     if(SaiDao_Flag == 1)
     {
-        if(Distance > 3200)
+        if(Distance > 3100)
           {
       
-         SpeedMid = 2000;
-         Ring_Deal_2();
+        // SpeedMid = 1500;
+              if(Ring_Over == 0)
+              {
+                   Ring_Deal_2();
+              }
          
          }
     }
@@ -441,8 +446,11 @@ void judge_road()
       if(Distance < 500)
           {
       
-         SpeedMid = 2000;
-         Ring_Deal_2();
+       //  SpeedMid = 1500;
+          if(Ring_Over == 0)
+              {
+                   Ring_Deal_2();
+              }
          
          }
       else
@@ -1024,12 +1032,14 @@ void Ring_Deal_2()
                     }
               }
    }
-            if(Distance -  Ring_Distance >= 30)
+            if(Distance -  Ring_Distance >= 40)
             {
               RoadType = Normal;
                Ring_ING = 0;;
                Ring_Distance = 0;
                Start_Ring = 0;
+                Ring_Over = 1;
+             
             }
 }
 //出界检测

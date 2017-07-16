@@ -148,4 +148,5 @@ extern void My_Run();
 
 extern int   SaiDao_Flag;
 
+extern int Ring_Over;
 #endif

@@ -47,11 +47,11 @@ void Direct_PD(void)
   }    
   Direct_D = DD_A;*/
   
-  if(Myabsfloat(Middle_Enow - Middle_Elast) > 80)
-  {
-    Middle_Enow = Middle_Elast;
-  }
-  
+        if(Myabsfloat(Middle_Enow - Middle_Elast) > 80)
+        {
+          Middle_Enow = Middle_Elast;
+        }
+
   P_Var = Direct_P*Middle_Enow;
   D_Var = Direct_D*(Middle_Enow - Middle_Elast);
   

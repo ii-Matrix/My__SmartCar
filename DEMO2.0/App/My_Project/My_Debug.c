@@ -44,24 +44,24 @@ void My_Switch_Set(void)
     CarState = Car_Start;
     SpeedMid = 2200; 
     SpeedGoal  = 2200;
-    Speed_State = 0.28;
-     Direct_P = 2.7;
+    Speed_State = 0.31;
+     Direct_P = 2.6;
   }
   if(Switch_Flag3 == 0)
   {
       CarState = Car_Start;
       SpeedMid = 2400; 
       SpeedGoal  = 2200;
-      Speed_State = 0.27;
-      Direct_P = 2.8;
+      Speed_State = 0.32;
+      Direct_P = 2.6;
   }
   if(Switch_Flag4 == 0)
   {
      CarState = Car_Start;
     SpeedMid = 2600; 
      SpeedGoal  = 2600;
-    Speed_State = 0.30;
-     Direct_P = 2.8;
+    Speed_State = 0.33;
+     Direct_P = 2.9;
   }
   
   

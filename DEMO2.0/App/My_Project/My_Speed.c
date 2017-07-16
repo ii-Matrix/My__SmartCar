@@ -79,7 +79,8 @@ void SpeedSet(void)
   {
     SpeedGoal = SpeedMid;
   }
-     
+    
+ 
      
 
 }
@@ -114,14 +115,33 @@ void SpeedSet_2(void)
      SpeedGoal = SpeedMin;
   }
   
-    //   if(Distance > 3200)
-      //    {
-     //        if(SpeedNow1 > SpeedMin)
-       //         {
-      //            SpeedGoal = 0;
-        //        }
-      //        SpeedMid = 2000;
-      //    }
+       if(SaiDao_Flag == 1)
+    {
+        if(Distance > 3050)
+          {
+         if(SpeedNow1 > 1000)
+         SpeedGoal = 0;
+         else
+           SpeedGoal = 2200;
+        
+         
+         }
+    }
+    else if(SaiDao_Flag == 0)
+    {
+      if(Distance < 500)
+          {
+      
+         SpeedGoal = 1000;
+        
+         }
+      else
+      {
+         SpeedMid = 2400;
+         
+      }
+      
+    }
   
  
   

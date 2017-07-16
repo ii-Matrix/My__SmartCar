@@ -32,7 +32,9 @@
    
    
    
-   void  main(void)
+   
+   
+void  main(void)
 {
     Init_All(); 
     My_Switch_Set();
